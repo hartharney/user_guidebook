@@ -1,0 +1,1 @@
+export  { default as Logo } from './cloudbank_logo.png'
