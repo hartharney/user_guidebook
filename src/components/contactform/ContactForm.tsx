@@ -1,10 +1,14 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import styled from "styled-components";
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import { firebaseApp } from "../../Firebase";
+import { getFirestore, addDoc, collection} from "firebase/firestore";
 
 const ContactForm = () => {
+  const db = getFirestore(firebaseApp);
+   const contactsCollection = collection(db, "contacts");
   const [formData, setFormData] = useState({
     name: "",
     phoneNumber: "",
@@ -15,6 +19,10 @@ const ContactForm = () => {
   });
   const [phoneError, setPhoneError] = useState("");
   const [emailError, setEmailError] = useState("");
+
+    
+
+
 
 function isValidPhoneNumber(phoneNumber : string) {
  const phoneRegex = /^(?:[0-9] ?){6,14}[0-9]$/;
@@ -56,9 +64,9 @@ function isValidEmail(email : string) {
     setFormData({ ...formData, addresses: updatedAddresses });
   };
 
-  const handleSubmit = (e: FormEvent<HTMLButtonElement>) => {
-     e.preventDefault();
-      setPhoneError("");
+  const handleSubmit = async (e: FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setPhoneError("");
     setEmailError("");
 
     if (!isValidPhoneNumber(formData.phoneNumber)) {
@@ -71,8 +79,29 @@ function isValidEmail(email : string) {
       return;
     }
 
-    console.log("Form Submitted:", formData);
- 
+     try {
+      const docRef = await addDoc(contactsCollection, formData);
+      console.log(docRef)
+
+        setFormData({
+    name: "",
+    phoneNumber: "",
+    email: "",
+    addresses: [""],
+    longitude: "40.7128", 
+    latitude: "-74.0060",
+  })
+    } catch (error) {
+
+       toast.error("Error adding document", {
+        position: 'top-right',
+        autoClose: 10000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+    }
+
   };
 
  const customStyles = {
@@ -93,6 +122,7 @@ function isValidEmail(email : string) {
   return (
     // <Container>
      <>
+   
         <Form>
         <FormGroup>
           <label>Name</label>
@@ -193,7 +223,11 @@ const Form = styled.form`
   width: 100%;
 
   @media (max-width: 759px) {
-      grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
+        overflow: scroll;
+        margin-bottom: 20px;
+
     }
 `;
 
