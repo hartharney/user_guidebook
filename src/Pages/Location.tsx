@@ -1,5 +1,6 @@
 import ContactForm from '../components/contactform/ContactForm'
 import styled from 'styled-components'
+import 'react-toastify/dist/ReactToastify.css';
 
 const Location = () => {
   return (

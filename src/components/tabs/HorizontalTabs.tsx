@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ScrollableTable from '../table/Table';
 import MapView from '../map/MapView';
 import { CiViewTable } from 'react-icons/ci';
 import { FaMapLocationDot } from 'react-icons/fa6';
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { firebaseApp } from '../../Firebase'; 
 
 interface TabButtonProps {
   onClick: () => void;
@@ -10,56 +12,37 @@ interface TabButtonProps {
   children: React.ReactNode;
   icon: React.ReactNode;
 }
+interface Contact {
+  id: string;
+  name: string;
+  phoneNumber: string;
+  email: string;
+  address: string;
+  longitude: number;
+  latitude: number;
+}
 
 const TabComponent = () => {
   const [activeTab, setActiveTab] = useState('table');
- const dummyData = [
-  {
-    id: '1',
-    name: 'John Doe',
-    phoneNumber: '123-456-7890',
-    email: 'john@example.com',
-    address: '123 Main St',
-    longitude: -74.0059,
-    latitude: 40.7128,
-  },
-  {
-    id: '2',
-    name: 'Jane Smith',
-    phoneNumber: '987-654-3210',
-    email: 'jane@example.com',
-    address: '456 Oak St',
-    longitude: -73.9876,
-    latitude: 40.7214,
-  },
-  {
-    id: '3',
-    name: 'Bob Johnson',
-    phoneNumber: '555-123-4567',
-    email: 'bob@example.com',
-    address: '789 Pine St',
-    longitude: -73.9762,
-    latitude: 40.7306,
-  },
-  {
-    id: '4',
-    name: 'Alice Williams',
-    phoneNumber: '333-999-8888',
-    email: 'alice@example.com',
-    address: '101 Elm St',
-    longitude: -73.9659,
-    latitude: 40.7398,
-  },
-  {
-    id: '5',
-    name: 'Charlie Brown',
-    phoneNumber: '777-444-5555',
-    email: 'charlie@example.com',
-    address: '202 Birch St',
-    longitude: -73.9546,
-    latitude: 40.7490,
-  },
-];
+const [contacts, setContacts] = useState<Contact[]>([]);
+
+  useEffect(() => {
+    // Fetch data from Firebase when the component mounts
+    const fetchData = async () => {
+      const db = getFirestore(firebaseApp);
+      const contactsCollection = collection(db, 'contacts');
+      const querySnapshot = await getDocs(contactsCollection);
+
+      const contactsData: Contact[] = [];
+      querySnapshot.forEach((doc) => {
+        contactsData.push({ id: doc.id, ...doc.data() } as Contact);
+      });
+
+      setContacts(contactsData);
+    };
+
+    fetchData();
+  }, []);
 
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
@@ -84,8 +67,8 @@ const TabComponent = () => {
         </TabButton>
       </div>
 
-      {activeTab === 'table' && <ScrollableTable contacts={dummyData} />}
-      {activeTab === 'map' && <MapView dummyData={dummyData} />}
+      {activeTab === 'table' && <ScrollableTable contacts={contacts} />}
+      {activeTab === 'map' && <MapView dummyData={contacts} />}
     </div>
   );
 };

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Location from './Pages/Location';
 import Dashboard from './Pages/Dashboard';
 import Layout from './components/layout/Layout';
@@ -11,22 +11,24 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-
-const router = createBrowserRouter(
-    createRoutesFromElements(
-         <Route path="/" element={<Layout />}>
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="add-user" element={<Location />} />
-      </Route>
-    )
-);
-
 const App: React.FC = () => {
   return (
-  <>
-  <GlobalStyle />
-  <RouterProvider router={router}/>
-  </>
+    <>
+      <GlobalStyle />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="add-user" element={<Location />} />
+            {/* Redirect from "/" to "/dashboard" */}
+            <Route
+              index
+              element={<Navigate to="dashboard" replace />}
+            />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 };
 

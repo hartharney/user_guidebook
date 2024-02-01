@@ -31,16 +31,19 @@ const MapView: React.FC<MapViewProps> = ({ dummyData }) => {
     }
   }, [selectedContact]);
 
-  useEffect(() => {
+ useEffect(() => {
   const iframe = document.getElementById('mapFrame') as HTMLIFrameElement;
+
   if (iframe && selectedContact) {
-    iframe.src = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.5806871468985!2d${
-      selectedContact.longitude
-    }!3d${selectedContact.latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103bf7d90ebc1801%3A0x390e8023a5527003!2sCloudBank!5e0!3m2!1sen!2sng!4v1706787546074!5m2!1sen!2sng`;
+    const { latitude, longitude } = selectedContact;
+
+    iframe.src = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.5806871468985!2d${longitude}!3d${latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103bf7d90ebc1801%3A0x390e8023a5527003!2sCloudBank!5e0!3m2!1sen!2sng!4v1706787546074!5m2!1sen!2sng`;
   } else {
+    // Default coordinates when no contact is selected
     iframe.src = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.5806871468985!2d3.5275332793471!3d6.447844807413136!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103bf7d90ebc1801%3A0x390e8023a5527003!2sCloudBank!5e0!3m2!1sen!2sng!4v1706787546074!5m2!1sen!2sng`;
   }
 }, [selectedContact]);
+
 
   return (
     <>

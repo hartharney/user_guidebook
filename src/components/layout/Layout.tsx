@@ -80,8 +80,8 @@ const ToggleBtn = styled.button<{ isOpen: boolean }>`
     margin-left: ${({ isOpen }) => (isOpen ? '150px' : '0')};
     transition: margin-left 0.3s ease;
   }
-
 `;
+
 
 const SidebarContainer = styled.div<{ isOpen: boolean }>`
   display: flex;

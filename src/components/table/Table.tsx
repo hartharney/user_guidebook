@@ -40,6 +40,7 @@ const ScrollableTable: React.FC<ScrollableTableProps> = ({ contacts }) => {
 
   const designOptions = {
     color: '#3498db',
+    fontColor: 'white',
   };
 
   return (
@@ -52,3 +53,5 @@ const ScrollableTable: React.FC<ScrollableTableProps> = ({ contacts }) => {
 };
 
 export default ScrollableTable;
+
+
