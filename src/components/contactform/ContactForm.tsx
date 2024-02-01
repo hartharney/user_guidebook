@@ -1,7 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import styled from "styled-components";
 import { toast } from "react-toastify";
-import Modal from 'react-modal';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { firebaseApp } from "../../Firebase";
@@ -20,35 +19,10 @@ const ContactForm = () => {
   });
   const [phoneError, setPhoneError] = useState("");
   const [emailError, setEmailError] = useState("");
-   const [modalIsOpen, setIsOpen] = useState(false);
-     const [modalContent, setModalContent] = useState("");
-  const [modalStyles, setModalStyles] = useState({
-    content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      borderRadius: '4.617px',
-        border: '1px solid #ccc',
-      transistion: 'all 0.5s ease-in-out',
-      height: '100px', 
-      width: '100px',  
-    },
-  });
+
+    
 
 
-  const openModal = (content: string) => {
-    setModalContent(content);
-    setIsOpen(true);
-  }
-
-
-
-  const closeModal = () => {
-    setIsOpen(false);
-  }
 
 function isValidPhoneNumber(phoneNumber : string) {
  const phoneRegex = /^(?:[0-9] ?){6,14}[0-9]$/;
@@ -108,7 +82,7 @@ function isValidEmail(email : string) {
      try {
       const docRef = await addDoc(contactsCollection, formData);
       console.log(docRef)
-      openModal('Successfully added');
+
         setFormData({
     name: "",
     phoneNumber: "",
@@ -118,7 +92,7 @@ function isValidEmail(email : string) {
     latitude: "-74.0060",
   })
     } catch (error) {
-       openModal('Failed action');
+
        toast.error("Error adding document", {
         position: 'top-right',
         autoClose: 10000,
@@ -148,15 +122,7 @@ function isValidEmail(email : string) {
   return (
     // <Container>
      <>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        style={modalStyles}
-        contentLabel="User Action"
-      >
-        <h2 ref={(_subtitle) => (_subtitle && (_subtitle.style.color = 'green'))}>Thank you!</h2>
-        <button onClick={closeModal}>close</button>
-      </Modal>
+   
         <Form>
         <FormGroup>
           <label>Name</label>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Location from './Pages/Location';
 import Dashboard from './Pages/Dashboard';
@@ -20,7 +20,6 @@ const App: React.FC = () => {
           <Route path="/" element={<Layout />}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="add-user" element={<Location />} />
-            {/* Redirect from "/" to "/dashboard" */}
             <Route
               index
               element={<Navigate to="dashboard" replace />}

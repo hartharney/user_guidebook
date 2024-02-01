@@ -3,12 +3,12 @@ import { getFirestore } from "firebase/firestore/lite";
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAf5jBZ1xwjNO-0z8Svlr0hw6ehYWytMis",
-  authDomain: "new-guide-book.firebaseapp.com",
-  projectId: "new-guide-book",
-  storageBucket: "new-guide-book.appspot.com",
-  messagingSenderId: "545733973253",
-  appId: "1:545733973253:web:a4133d5f2abfa6c832536c",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
 const firebaseApp = initializeApp(firebaseConfig);

@@ -27,7 +27,6 @@ const TabComponent = () => {
 const [contacts, setContacts] = useState<Contact[]>([]);
 
   useEffect(() => {
-    // Fetch data from Firebase when the component mounts
     const fetchData = async () => {
       const db = getFirestore(firebaseApp);
       const contactsCollection = collection(db, 'contacts');
